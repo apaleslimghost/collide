@@ -48,6 +48,7 @@ function rb() {
 	return Math.floor(256 * Math.random());
 }
 
+var _732 = Math.pow(7, 3/2);
 var i = 0;
 var blobs = [];
 c.addEventListener('mouseup', function mouseup(ev) {
@@ -61,9 +62,13 @@ c.addEventListener('mouseup', function mouseup(ev) {
 		dy: (ev.offsetY * 2 - line.startY) / 50,
 		colour: [rb(), rb(), rb()],
 		draw: function() {
+			var v = Math.sqrt(Math.pow(this.dy, 2) + Math.pow(this.dx, 2));
+			var t = Math.atan2(this.dy, this.dx);
+			var h = Math.max(Math.pow((v - 5)/10, 3) + 7, 7);
+			var w = _732 / Math.sqrt(h);
 			ctx.beginPath();
 			ctx.fillStyle = '#' + this.colour.map(zph).join('');
-			ctx.ellipse(this.x, this.y, 7, 7, 0, 0, 2*Math.PI);
+			ctx.ellipse(this.x, this.y, h, w, t, 0, 2*Math.PI);
 			ctx.fill();
 		}
 	};
