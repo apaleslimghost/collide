@@ -45,7 +45,7 @@ function zph(n) {
 }
 
 function rb() {
-	return Math.floor(256 * Math.random());
+	return Math.floor(128 * Math.random()) + 128;
 }
 
 var _732 = Math.pow(7, 3/2);
