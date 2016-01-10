@@ -95,7 +95,7 @@ function g(t1, t2) {
 	t2.ddx += dx * f;
 }
 
-function tick() {
+function physics() {
 	blobs.forEach(function(blob, i) {
 		blob.ddx = blob.ddy = 0;
 		blobs.slice(i + 1).forEach(function(blob2) {
@@ -104,8 +104,6 @@ function tick() {
 	});
 
 	things.forEach(function(thing) {
-		thing.draw();
-
 		if(thing.ddx) thing.dx += thing.ddx;
 		if(thing.ddy) thing.dy += thing.ddy;
 		if(thing.dx)  thing.x  += thing.dx;
@@ -117,6 +115,11 @@ function tick() {
 		thing.dx *= 0.999;
 		thing.dy *= 0.999;
 	});
+}
+setInterval(physics, 16);
+
+function tick() {
+	things.forEach(function(thing) {thing.draw();});
 	requestAnimationFrame(tick);
 }
 tick();
