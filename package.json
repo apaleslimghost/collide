@@ -1,0 +1,10 @@
+{
+  "scripts": {
+    "prestart": "watchify -d index.js -o bundle.js &",
+    "start": "browser-run bundle.js"
+  },
+  "devDependencies": {
+    "@quarterto/browser": "^1.1.0",
+    "watchify": "^3.7.0"
+  }
+}
