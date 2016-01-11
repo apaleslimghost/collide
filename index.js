@@ -48,6 +48,10 @@ function rb() {
 	return Math.floor(128 * Math.random()) + 128;
 }
 
+function clamp(v) {
+	return Math.max(0, Math.min(1, v));
+}
+
 var _732 = Math.pow(7, 3/2);
 var i = 0;
 var blobs = [];
@@ -61,15 +65,27 @@ c.addEventListener('mouseup', function mouseup(ev) {
 		dx: (ev.offsetX * 2 - line.startX) / 50,
 		dy: (ev.offsetY * 2 - line.startY) / 50,
 		colour: [rb(), rb(), rb()],
+		positions: [],
+		p: 0,
 		draw: function() {
 			var v = Math.sqrt(Math.pow(this.dy, 2) + Math.pow(this.dx, 2));
-			var t = Math.atan2(this.dy, this.dx);
 			var h = Math.max(Math.pow((v - 5)/10, 3) + 7, 7);
-			var w = _732 / Math.sqrt(h);
-			ctx.beginPath();
-			ctx.fillStyle = '#' + this.colour.map(zph).join('');
-			ctx.ellipse(this.x, this.y, h, w, t, 0, 2*Math.PI);
-			ctx.fill();
+			this.positions[this.p] = {
+				x: this.x,
+				y: this.y,
+				v: v,
+				h: h,
+				t: Math.atan2(this.dy, this.dx),
+				w: _732 / Math.sqrt(h)
+			};
+			this.p = (this.p + 1) % 20;
+
+			this.positions.forEach(function(pos, i) {
+				ctx.beginPath();
+				ctx.fillStyle = 'rgba(' + this.colour.map(function(c) { return c.toFixed(0); }).join() + ',' + (i - this.p + 20)/20 + ')';
+				ctx.ellipse(pos.x, pos.y, pos.h, pos.w, pos.t, 0, 2*Math.PI);
+				ctx.fill();
+			}, this);
 		}
 	};
 	things.set(id, blob);
